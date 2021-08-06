@@ -1,0 +1,38 @@
+line = open("UD.txt", "r")
+userName_list=[]
+password_list=[]
+for line in line: 
+  if line[0:4] == 'USER': 
+    continue 
+  line_list = line.split(',') 
+  userName_list.append(line_list[0])
+  password_list.append(line_list[1].rstrip())
+
+
+while True:
+    print("Login or create a new user? Select L to login, select C to create new user.")
+    choice=input()
+    if(choice=="L"):
+        print("Please enter your user name and hit enter")
+        username=input()
+        if(username in userName_list):
+          userNameindex=userName_list.index(username)
+          print("Enter password")
+          password=input()
+          if(password_list[userNameindex]==password):
+            print("you are logged in")
+          else:
+            print('Wrong password')
+        else:
+          print("User not found")
+    elif(choice=="C"):
+      print("Please enter your first name, last name, and student ID, separated by a space")
+      firstName, lastName, id = input("").split()
+      username=firstName[0].lower()+lastName[:2].lower()+id[:3]
+      while True:
+        print("Please enter password")
+        password=input()
+        print("Please reenter password:")
+        newPassword=input()
+        if(password==newPassword):
+          print('User Created') 
