@@ -1,0 +1,115 @@
+file=open('UD.txt','r')
+file.readline()
+
+firstnames=[]
+lastnames=[]
+username=[]
+all_users=[]
+
+for i in file:
+
+  
+
+  i=i.split(',')
+
+  firstnames.append(i[0])
+  lastnames.append(i[1])
+  username.append(i[2])
+  all_users.append(i)
+
+menu='''
+A:Search by last name
+B:Search by first name
+C:Search by username
+D:Display all users alphabetically by Firstname
+E:Display all users alphabetically by last name
+F:Insert a user
+'''
+print(menu)
+option=input("Enter the option: ")
+if option.upper()=="A":
+
+    last=input("Enter user's last name: ")
+
+
+    if last in lastnames:
+
+
+      positionInList=(lastnames.index(last))
+
+
+      print(','.join(all_users[positionInList]))
+
+
+    else:
+
+      print("not found")
+
+if option.upper()=="B":
+
+
+  first=input("Enter user's first name: ")
+
+
+  if first in firstnames:
+
+
+    positionInList=(firstnames.index(first))
+
+    print(','.join(all_users[positionInList]))
+
+
+else:
+
+    print("not found")
+
+
+if option.upper()=="C":
+
+  user=input("Enter user's username: ")
+
+  if user in username:
+
+    positionInList=(username.index(user))
+
+    print(','.join(all_users[positionInList]))
+
+else:
+
+    print("not found")
+
+
+if option.upper()=="D":
+
+  firstnames=[i.lower() for i in firstnames]
+  firstNameSorted=sorted(firstnames)
+
+
+  for i in firstNameSorted:
+    positionInList=(firstnames.index(i))
+
+
+    print(','.join(all_users[positionInList]))
+
+
+if option.upper()=="E":
+
+  lastnames=[i.lower()for i in lastnames]
+
+  lastNameSorted=sorted(lastnames)
+
+  for i in lastNameSorted:
+
+      positionInList=(lastnames.index(i))
+
+      print(','.join(all_users[positionInList]))
+
+
+
+
+if option.upper()=="F":
+  with open('UD.txt','a')as appendfile:
+
+
+
+    newUser=input("Enter user info in the following format: first name,last name,username,password",)
