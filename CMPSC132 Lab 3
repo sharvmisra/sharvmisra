@@ -1,0 +1,95 @@
+import re
+
+class Userdata:
+   
+    def __init__(self, firstName, lastName, username, password):
+        self.firstName = firstName
+        self.lastName = lastName
+        self.username = username
+        self.password = password
+    def FirstName(self, firstName):
+        self.firstName = firstName
+    def LastName(self, lastName):
+        self.lastName = lastName  
+    def Username(self, username):
+        self.username = username
+    def setPassword(self, password):
+        self.password = password
+    def getFirstName(self):
+        return self.firstName
+    def getLastName(self):
+        return self.lastName
+    def getUsername(self):
+        return self.username
+    def getPassword(self):
+        return self.password
+
+
+def importDatabase():
+    db = []
+    datafile = open("UD.txt", "r")
+    lines = datafile.readlines()
+    lines = lines[1:]
+    for line in lines:
+        line = re.split(', |,', line)
+        firstName, lastName, username, password = line
+        db.append(Userdata(firstName, lastName, username, password))
+    return db
+
+
+def searchByLastName(database):
+    lastName = input("Enter user’s name in the form: Lastname  ").split()
+    for entry in database:
+        if(entry.getLastName() == lastName):
+            print(entry.getPassword())
+        else:
+            print("Not found")
+    
+
+
+def searchByUsername(database):
+    username = input("Enter user’s username: ")
+    for entry in database:
+        if(entry.getUsername() == username):
+            print(entry.getPassword())
+        else:
+            print("Not found")
+
+
+def insertUser(database):
+    firstName, lastName, username, password = input("Enter user info in the following format: First name, last name, username, password: ").split(', ')
+    database.append(Userdata(firstName, lastName, username, password))
+
+def displayAllUsers(database):
+    for entry in database:
+        print("First Name:", entry.getFirstName())
+        print("Last Name :", entry.getLastName())
+        print("Username :", entry.getUsername())
+        print("Password :", entry.getPassword())
+        print("")
+
+def menu():
+    print('A: Search by last name')
+    print('B: Search by username')
+    print('C: Insert a user')
+    print('E. Display all users')
+
+def main():
+    database = importDatabase()
+    while True:
+        menu()
+        choice = input()
+        if choice in ['A']:
+            searchByLastName(database)
+        elif choice in ['B']:
+            searchByUsername(database)
+        elif choice in ['C']:
+            insertUser(database)
+        elif choice in ['E']:
+            displayAllUsers(database)
+        else:
+            break
+
+
+if __name__ == "__main__":
+    main()
