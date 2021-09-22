@@ -1,0 +1,56 @@
+rom Graph_code import Graph
+from Graph_code import Tree
+vertices = ["Peter", "Jane", "Mark",
+    "Cindy", "Wendy"]
+
+edges = [
+    [0, 1], [0, 2],
+    [1, 0], [1, 2], [1, 3],
+    [2, 1], [2, 3],
+    [3, 2],
+    [4, 1], [4, 2]
+    ] 
+graph1 = Graph(vertices, edges)
+graph_vertices = graph1.getVertices()
+
+addUser = input("Please add new user:")
+x = len(graph_vertices)
+graph1.addVertex(addUser)
+for i in range(0, x):
+  y = str(i)
+  y + graph_vertices[i]
+  print(y+ ": " + graph_vertices[i])
+
+while True:
+
+  select = input("Please select who you want to add from this list, add one friend at a time, enter -1 to exit. ")
+
+  if select.lower() == "-1":
+    break
+
+  new_vertices = graph1.getVertices()
+
+  new_friend = new_vertices[int(select)]
+
+  graph1.addEdge(new_vertices[-1], new_vertices[int(select)])
+  
+  print("You have friended " + new_friend)
+
+
+print("Printing master list of friends")
+graph_vertices = graph1.getVertices()
+
+graph1.printEdges()
+                                
+edges = graph1.getNeighbors(2)
+
+for i in range(0, len(graph_vertices)):
+
+  edges = graph1.getNeighbors(i)
+
+  for j in range(0, len(edges)):
+    person1 = edges[j].u
+    person2 = edges[j].v
+
+    print(graph_vertices[person1] + " is friends with " + graph_vertices[person2])
+    
