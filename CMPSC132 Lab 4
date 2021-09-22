@@ -1,0 +1,142 @@
+line = open("UD.txt", "r")
+username_list=[]
+password_list=[]
+for line in line: 
+  line_list = line.split(',')
+  username_list.append(line_list[0])
+  password_list.append(line_list[1].rstrip())
+while True:
+  print("Login or create a new user? Select L to login, select C to create new user.")
+  choice=input()
+  if(choice=="L"):
+    print("Please enter your user name and hit enter")
+    username=input()
+    if(username in username_list):
+      userNameindex=username_list.index(username)
+      print("Enter password")
+      password=input()
+      if(password_list[userNameindex]==password):
+        print("You are logged in")
+        print(display_menu)
+      else:
+        print("Wrong password")
+    else:
+      print("User not found")
+  elif(choice=="C"):
+    print("Please enter your first name, last name, and student ID, separated by a space")
+    firstName, lastName, id = input("").split()
+    username=firstName[0].lower()+lastName[:2].lower()+id[:3]
+    while True:
+        print("Please enter password")
+        password=input()
+        print("Please reenter password:")
+        newPassword=input()
+        if(password==newPassword):
+          print('User Created')
+class Student():
+    def __init__(self,user_name=''):
+        self.__username=user_name
+        self.__courses=[]
+    def addCourse(self,course):
+        self.__courses.append(course)
+    def dropCourse(self,course_name):
+        for course in self.__courses:
+            if course.getCourseName()==course_name:
+                self.__courses.remove(course)
+                print('Course successfully deleted')
+                return
+    def getCourse(self):return self.__courses
+    def getUserID(self):return self.__username
+
+
+class Course():
+    def __init__(self,course_name=''):
+        self.__coursename=course_name
+        self.__students=[]
+    def addStudent(self,student):
+        self.__students.append(student)
+    def dropStudent(self,id):
+        for student in self.__students:
+            if student.getUserID()==id:
+              self.__students.remove(student)
+              print('Student successfully deleted')
+              return
+    def getStudents(self):return self.__students
+    def getNumberOfStudents(self):return len(self.__students)
+    def getCourseName(self):return self.__coursename
+
+
+
+def display_menu():
+    print('A: Show all courses available')
+    print('B: Add a course')
+    print('C: Drop a course')
+    print('D: Show all my courses')
+    print('E: Exit')
+    choice=input('Enter choice: ')
+    return choice
+
+
+def displayAllCourses(courses):
+    for i in range(len(courses)):
+        print('{0}. {1} students number: {2}'.format(i+1,courses[i].getCourseName(),courses[i].getNumberOfStudents()))
+
+
+def addCourse(student_Id, students, courses):
+    course_name= input('Enter course name: ')
+    for student in students:
+        if student.getUserID()==student_Id:
+            for course in courses:
+                if course.getCourseName()==course_name:
+                    student.addCourse(course)
+                    print('Course successfully added')
+                    return
+            print('Course not available.')
+            return
+
+
+def dropCourse(student_Id, students, courses):
+    course_name= input('Enter course name: ')
+    for student in students:
+        if student.getUserID()==student_Id:
+            for course in courses:
+                if course.getCourseName()==course_name:
+                    student.dropCourse(course_name)
+                    return
+            print('Course not available.')
+            return
+
+
+def showAllCourses(student_Id, students):
+    for student in students:
+        if student.getUserID()==student_Id:
+            courses = student.getCourse()
+            for course in courses:
+                print('Course Enrolled to: {}'.format(course.getCourseName()))
+
+
+def main():
+    
+    student_id_password=readStudentIDPwdFromFile('D:\\UD.txt')
+    
+    students=[]
+    for student_Id in student_id_password.keys():
+        students.append(Student(student_Id))
+   
+    courses=[]
+    courses.append(Course('CS131'))
+    courses.append(Course('CS132'))
+    courses.append(Course('EE210'))
+    courses.append(Course('EE310'))
+    courses.append(Course('Math320'))
+    courses.append(Course('Math220'))
+    
+    while True:
+        choice=display_menu().upper()
+        if choice=='A': displayAllCourses(courses)
+        elif choice=='B':addCourse(student_Id,students,courses)
+        elif choice=='C':dropCourse(student_Id,students,courses)
+        elif choice=='D':showAllCourses(student_Id,students)
+        elif choice=='E':
+            break
+main()
